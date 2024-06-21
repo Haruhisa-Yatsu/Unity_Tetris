@@ -91,8 +91,9 @@ public class Mino : MonoBehaviour
 
                 _fallCount += Time.deltaTime;
 
-                if (Input.GetKeyDown(KeyCode.DownArrow))
+                if (Input.GetKeyDown(KeyCode.DownArrow) || _fallCount > _fallTime)
                 {
+                    _fallCount = 0.0f;
                     if (LandingCheck())
                     {
                         _state = State.Landing;
