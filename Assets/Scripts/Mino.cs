@@ -107,11 +107,21 @@ public class Mino : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     _posX++;
+
+                    if(_posX >= Board.BOARD_WIDTH)
+                    {
+                        _posX = Board.BOARD_WIDTH - 1;
+                    }
                 }
 
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
                     _posX--;
+
+                    if(_posX <= -1)
+                    {
+                        _posX = 0;
+                    }
                 }
 
                 break;
