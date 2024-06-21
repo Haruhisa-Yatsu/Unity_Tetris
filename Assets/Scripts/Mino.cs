@@ -25,7 +25,7 @@ public class Mino : MonoBehaviour
     private int _posY;
 
     private readonly int _startPosX = 5;
-    private readonly int _startPosY = -1;
+    private readonly int _startPosY = 0;
 
     /// <summary>
     /// ©‘R—‰º‚·‚é•b”
