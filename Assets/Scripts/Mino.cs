@@ -7,6 +7,11 @@ public class Mino : MonoBehaviour
     private RectTransform _rectTransform;
 
     /// <summary>
+    /// ボード Inspectorから指定
+    /// </summary>
+    public Board _board;
+
+    /// <summary>
     /// ブロックのプレハブ　Inspectorから指定する
     /// </summary>
     public Block _blockPrefab;
@@ -74,7 +79,7 @@ public class Mino : MonoBehaviour
     void Start()
     {
         _rectTransform = GetComponent<RectTransform>();
- 
+
     }
 
     // Update is called once per frame
@@ -104,11 +109,21 @@ public class Mino : MonoBehaviour
                     }
                 }
 
+                if (Input.GetKeyDown(KeyCode.UpArrow))
+                {
+                    while (!LandingCheck())
+                    {
+                        Fall();
+                    }
+
+                    _state = State.Landing;
+                }
+
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
                     _posX++;
 
-                    if(_posX >= Board.BOARD_WIDTH)
+                    if (_posX >= Board.BOARD_WIDTH)
                     {
                         _posX = Board.BOARD_WIDTH - 1;
                     }
@@ -118,7 +133,7 @@ public class Mino : MonoBehaviour
                 {
                     _posX--;
 
-                    if(_posX <= -1)
+                    if (_posX <= -1)
                     {
                         _posX = 0;
                     }
@@ -126,6 +141,11 @@ public class Mino : MonoBehaviour
 
                 break;
             case State.Landing:
+
+                var block = _board.GetBlock(_posX, -_posY);
+                block.SetActive(true);
+
+
                 _state = State.Initialize;
 
                 break;
@@ -150,10 +170,19 @@ public class Mino : MonoBehaviour
     /// <returns></returns>
     private bool LandingCheck()
     {
-        if(_posY <= -Board.BOARD_HEIGHT + 1)
+
+
+        if (_posY <= -Board.BOARD_HEIGHT + 1)
         {
             return true;
         }
+
+        if (_board.GetBlock(_posX, -_posY + 1).gameObject.activeSelf)
+        {
+            return true;
+        }
+
+
 
         return false;
     }
