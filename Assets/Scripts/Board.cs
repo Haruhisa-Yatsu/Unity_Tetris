@@ -8,6 +8,22 @@ public class Board : MonoBehaviour
 
     public Mino _mino;
 
+    /// <summary>
+    /// ”Õ–Ê‚Ì‰¡•
+    /// </summary>
+    public const int BOARD_WIDTH = 10; 
+
+    /// <summary>
+    /// ”Õ–Ê‚Ìc•
+    /// </summary>
+    public const int BOARD_HEIGHT = 20;
+
+    /// <summary>
+    /// ƒuƒƒbƒNˆê‚Â‚Ì‘å‚«‚³
+    /// </summary>
+    public const float BLOCK_SIZE = 100.0f;
+
+
     // Start is called before the first frame update
     void Start()
     {

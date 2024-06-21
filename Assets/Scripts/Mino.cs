@@ -123,7 +123,7 @@ public class Mino : MonoBehaviour
                 break;
         }
 
-        _rectTransform.anchoredPosition = new Vector3(_posX * 100.0f, _posY * 100.0f, 0.0f);
+        _rectTransform.anchoredPosition = new Vector3(_posX * Board.BLOCK_SIZE, _posY * Board.BLOCK_SIZE, 0.0f);
     }
 
     /// <summary>
@@ -140,7 +140,7 @@ public class Mino : MonoBehaviour
     /// <returns></returns>
     private bool LandingCheck()
     {
-        if(_posY <= -20 + 1)
+        if(_posY <= -Board.BOARD_HEIGHT + 1)
         {
             return true;
         }
