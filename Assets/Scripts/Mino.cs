@@ -4,6 +4,51 @@ using UnityEngine;
 
 public class Mino : MonoBehaviour
 {
+    public enum ShapeType
+    {
+        S,
+        Z,
+
+        J,
+        L,
+
+        T,
+        O,
+        I
+    }
+
+    public readonly int[,] _shape_S =
+    {
+        {-1, 0 },
+        {0, -1 },
+        {1, -1 }
+    };
+
+    public int[,] GetShapeData(ShapeType shapeType)
+    {
+        switch (shapeType)
+        {
+            case ShapeType.S:
+                return _shape_S;
+            case ShapeType.Z:
+                break;
+            case ShapeType.J:
+                break;
+            case ShapeType.L:
+                break;
+            case ShapeType.T:
+                break;
+            case ShapeType.O:
+                break;
+            case ShapeType.I:
+                break;
+            default:
+                break;
+        }
+        return null;
+    }
+
+
     private RectTransform _rectTransform;
 
     /// <summary>
@@ -19,7 +64,7 @@ public class Mino : MonoBehaviour
     /// <summary>
     /// ミノを構成しているブロックたち
     /// </summary>
-    private Block[] _blocks = new Block[1];
+    private Block[] _blocks = new Block[4];
 
     private int _posX;
     private int _posY;
@@ -52,26 +97,48 @@ public class Mino : MonoBehaviour
 
     public void CreateBlocks()
     {
-        if (_blocks[0] != null)
-        {
-            Destroy(_blocks[0].gameObject);
-            _blocks[0] = null;
+        for (int i = 0; i < 4; i++) { 
+            if (_blocks[i] != null)
+            {
+                Destroy(_blocks[i].gameObject);
+                _blocks[i] = null;
+            } 
         }
 
         _posX = _startPosX;
         _posY = _startPosY;
 
-        var block = Instantiate(_blockPrefab, transform);
+        var shapeData = GetShapeData(ShapeType.S);
 
-        block.SetColor(
-            new Color(
-                Random.Range(0.0f, 1.0f),
-                Random.Range(0.0f, 1.0f),
-                Random.Range(0.0f, 1.0f)
-                )
-            );
+        for(int i = 0; i < 4; i++)
+        {
+            var block = Instantiate(_blockPrefab, transform);
 
-        _blocks[0] = block;
+            if (i == 0)
+            {
+                block.transform.localPosition = new Vector3(0,0,0);
+            }
+            else
+            {
+                block.transform.localPosition =
+                    new Vector3(
+                        shapeData[i - 1,0],
+                        -shapeData[i - 1, 1], 
+                        0)
+                    * Board.BLOCK_SIZE;
+            }
+
+
+            //block.SetColor(
+            //    new Color(
+            //        Random.Range(0.0f, 1.0f),
+            //        Random.Range(0.0f, 1.0f),
+            //        Random.Range(0.0f, 1.0f)
+            //        )
+            //    );
+
+            _blocks[i] = block;
+        }
     }
 
 
