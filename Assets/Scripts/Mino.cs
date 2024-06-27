@@ -203,21 +203,17 @@ public class Mino : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.RightArrow))
                 {
-                    _posX++;
-
-                    if (_posX >= Board.BOARD_WIDTH)
+                    if (MoveCheck(1))
                     {
-                        _posX = Board.BOARD_WIDTH - 1;
+                        _posX += 1;
                     }
                 }
 
                 if (Input.GetKeyDown(KeyCode.LeftArrow))
                 {
-                    _posX--;
-
-                    if (_posX <= -1)
+                    if (MoveCheck(-1))
                     {
-                        _posX = 0;
+                        _posX += -1;
                     }
                 }
 
@@ -297,5 +293,52 @@ public class Mino : MonoBehaviour
             }
         }
         return false;
+    }    
+    
+    /// <summary>
+    /// ƒ~ƒm‚ÌˆÚ“®”»’è
+    /// </summary>
+    /// <returns></returns>
+    private bool MoveCheck(int moveX)
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            if (i == 0)
+            {
+                if (_posX + moveX < 0)
+                {
+                    return false;
+                }
+                if (_posX + moveX >= Board.BOARD_WIDTH )
+                {
+                    return false;
+                }
+
+                if (_board.GetBlock(_posX + moveX, -_posY).gameObject.activeSelf)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (_posX + moveX + _shapeData[i - 1, 0] < 0)
+                {
+                    return false;
+                }
+                if (_posX + moveX + _shapeData[i - 1, 0] >= Board.BOARD_WIDTH)
+                {
+                    return false;
+                }
+
+                if (_board.GetBlock(
+                    _posX + moveX +_shapeData[i - 1, 0],
+                    -(_posY - _shapeData[i - 1, 1])
+                    ).gameObject.activeSelf)
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
