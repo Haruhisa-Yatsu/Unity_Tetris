@@ -66,10 +66,29 @@ public class Mino : MonoBehaviour
     /// </summary>
     private Block[] _blocks = new Block[4];
 
+    /// <summary>
+    /// 横位置
+    /// </summary>
     private int _posX;
+
+    /// <summary>
+    /// 縦位置
+    /// </summary>
     private int _posY;
+
+    /// <summary>
+    /// 形状データ
+    /// </summary>
     private int[,] _shapeData;
+
+    /// <summary>
+    /// ミノの初期位置
+    /// </summary>
     private readonly int _startPosX = 5;
+
+    /// <summary>
+    /// ミノの初期位置
+    /// </summary>
     private readonly int _startPosY = 0;
 
     /// <summary>
@@ -97,6 +116,7 @@ public class Mino : MonoBehaviour
 
     public void CreateBlocks()
     {
+        //すでに生成されているブロックを削除
         for (int i = 0; i < 4; i++)
         {
             if (_blocks[i] != null)
@@ -106,9 +126,11 @@ public class Mino : MonoBehaviour
             }
         }
 
+        // 初期位置の設定
         _posX = _startPosX;
         _posY = _startPosY;
 
+        // 形状データの取得
         _shapeData = GetShapeData(ShapeType.S);
 
         for (int i = 0; i < 4; i++)
@@ -130,15 +152,6 @@ public class Mino : MonoBehaviour
             }
 
             _blocks[i] = block;
-
-            //block.SetColor(
-            //    new Color(
-            //        Random.Range(0.0f, 1.0f),
-            //        Random.Range(0.0f, 1.0f),
-            //        Random.Range(0.0f, 1.0f)
-            //        )
-            //    );
-
 
         }
     }
@@ -240,7 +253,7 @@ public class Mino : MonoBehaviour
     }
 
     /// <summary>
-    /// ミノを1列分下に移動させる
+    /// ミノを1行分下に移動させる
     /// </summary>
     private void Fall()
     {
@@ -253,8 +266,6 @@ public class Mino : MonoBehaviour
     /// <returns></returns>
     private bool LandingCheck()
     {
-
-
         if (_posY <= -Board.BOARD_HEIGHT + 1)
         {
             return true;
@@ -264,9 +275,6 @@ public class Mino : MonoBehaviour
         {
             return true;
         }
-
-
-
         return false;
     }
 }
