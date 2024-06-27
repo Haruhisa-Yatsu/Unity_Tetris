@@ -68,7 +68,7 @@ public class Mino : MonoBehaviour
 
     private int _posX;
     private int _posY;
-
+    private int[,] _shapeData;
     private readonly int _startPosX = 5;
     private readonly int _startPosY = 0;
 
@@ -97,37 +97,39 @@ public class Mino : MonoBehaviour
 
     public void CreateBlocks()
     {
-        for (int i = 0; i < 4; i++) { 
+        for (int i = 0; i < 4; i++)
+        {
             if (_blocks[i] != null)
             {
                 Destroy(_blocks[i].gameObject);
                 _blocks[i] = null;
-            } 
+            }
         }
 
         _posX = _startPosX;
         _posY = _startPosY;
 
-        var shapeData = GetShapeData(ShapeType.S);
+        _shapeData = GetShapeData(ShapeType.S);
 
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             var block = Instantiate(_blockPrefab, transform);
 
             if (i == 0)
             {
-                block.transform.localPosition = new Vector3(0,0,0);
+                block.transform.localPosition = new Vector3(0, 0, 0);
             }
             else
             {
                 block.transform.localPosition =
                     new Vector3(
-                        shapeData[i - 1,0],
-                        -shapeData[i - 1, 1], 
+                        _shapeData[i - 1, 0],
+                        -_shapeData[i - 1, 1],
                         0)
                     * Board.BLOCK_SIZE;
             }
 
+            _blocks[i] = block;
 
             //block.SetColor(
             //    new Color(
@@ -137,7 +139,7 @@ public class Mino : MonoBehaviour
             //        )
             //    );
 
-            _blocks[i] = block;
+
         }
     }
 
@@ -209,9 +211,23 @@ public class Mino : MonoBehaviour
                 break;
             case State.Landing:
 
-                var block = _board.GetBlock(_posX, -_posY);
-                block.SetActive(true);
+                for (int i = 0; i < 4; i++)
+                {
+                    Block block = null;
+                    if (i == 0)
+                    {
+                        block = _board.GetBlock(_posX, -_posY);
+                    }
+                    else
+                    {
+                        block = _board.GetBlock(
+                            _posX + _shapeData[i - 1, 0],
+                            -(_posY - _shapeData[i - 1, 1])
+                            );
+                    }
 
+                    block.SetActive(true);
+                }
 
                 _state = State.Initialize;
 
