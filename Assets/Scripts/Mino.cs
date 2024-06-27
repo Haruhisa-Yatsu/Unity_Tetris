@@ -266,14 +266,35 @@ public class Mino : MonoBehaviour
     /// <returns></returns>
     private bool LandingCheck()
     {
-        if (_posY <= -Board.BOARD_HEIGHT + 1)
+        for (int i = 0; i < 4; i++)
         {
-            return true;
-        }
+            if (i == 0)
+            {
+                if (_posY <= -Board.BOARD_HEIGHT + 1)
+                {
+                    return true;
+                }
 
-        if (_board.GetBlock(_posX, -_posY + 1).gameObject.activeSelf)
-        {
-            return true;
+                if (_board.GetBlock(_posX, -_posY + 1).gameObject.activeSelf)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (_posY - _shapeData[i - 1, 1] <= -Board.BOARD_HEIGHT + 1)
+                {
+                    return true;
+                }
+
+                if (_board.GetBlock(
+                    _posX + _shapeData[i - 1, 0],
+                    -(_posY - _shapeData[i - 1, 1]) + 1
+                    ).gameObject.activeSelf)
+                {
+                    return true;
+                }
+            }
         }
         return false;
     }
