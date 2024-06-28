@@ -35,6 +35,26 @@ public class Board : MonoBehaviour
     /// <returns></returns>
     public Block GetBlock(int x, int y)
     {
+        if (x < 0)
+        {
+            return null;
+        }
+
+        if(x >= BOARD_WIDTH)
+        {
+            return null;
+        }
+
+        if(y < 0)
+        {
+            return null;
+        }
+
+        if(y >= BOARD_HEIGHT)
+        {
+            return null;
+        }
+
         return _boardData[y, x];
     }
 

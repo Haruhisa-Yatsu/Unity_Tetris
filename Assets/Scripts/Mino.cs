@@ -219,24 +219,7 @@ public class Mino : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    for (int i = 0; i < 4 - 1; i++)
-                    {
-                        var x = _shapeData[i, 0];
-                        var y = _shapeData[i, 1];
-
-                        _shapeData[i, 0] = -y;
-                        _shapeData[i, 1] = x;
-                    }
-
-                    for (int i = 1; i < 4; i++) {
-
-                        _blocks[i].transform.localPosition = 
-                            new Vector3(
-                                _shapeData[i - 1, 0], 
-                                -_shapeData[i - 1, 1],
-                                0) 
-                            * Board.BLOCK_SIZE;
-                    }
+                    Rotate();
                 }
 
                     break;
@@ -268,6 +251,57 @@ public class Mino : MonoBehaviour
         }
 
         _rectTransform.anchoredPosition = new Vector3(_posX * Board.BLOCK_SIZE, _posY * Board.BLOCK_SIZE, 0.0f);
+    }
+
+    private void Rotate()
+    {
+        if(_currentShape == ShapeType.O)
+        {
+            return;
+        }
+
+        int[,] tempShape = new int[4 - 1, 2];
+
+        for (int i = 0; i < 4 - 1; i++)
+        {
+            var x = _shapeData[i, 0];
+            var y = _shapeData[i, 1];
+
+            tempShape[i, 0] = -y;
+            tempShape[i, 1] = x;
+        }
+
+        bool check = false;
+        for (int i = 0; i < 4 - 1; i++)
+        {
+            var b = _board.GetBlock(
+                _posX + tempShape[i, 0],
+                -(_posY - tempShape[i, 1])
+                );
+            if (b == null || b.gameObject.activeSelf)
+            {
+                check = true;
+                break;
+            }
+        }
+
+        if (check)
+        {
+            return;
+        }
+
+        for (int i = 1; i < 4; i++)
+        {
+            _shapeData[i - 1, 0] = tempShape[i - 1, 0];
+            _shapeData[i - 1, 1] = tempShape[i - 1, 1];
+
+            _blocks[i].transform.localPosition =
+                new Vector3(
+                    _shapeData[i - 1, 0],
+                    -_shapeData[i - 1, 1],
+                    0)
+                * Board.BLOCK_SIZE;
+        }
     }
 
     /// <summary>
