@@ -217,7 +217,29 @@ public class Mino : MonoBehaviour
                     }
                 }
 
-                break;
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    for (int i = 0; i < 4 - 1; i++)
+                    {
+                        var x = _shapeData[i, 0];
+                        var y = _shapeData[i, 1];
+
+                        _shapeData[i, 0] = -y;
+                        _shapeData[i, 1] = x;
+                    }
+
+                    for (int i = 1; i < 4; i++) {
+
+                        _blocks[i].transform.localPosition = 
+                            new Vector3(
+                                _shapeData[i - 1, 0], 
+                                -_shapeData[i - 1, 1],
+                                0) 
+                            * Board.BLOCK_SIZE;
+                    }
+                }
+
+                    break;
             case State.Landing:
 
                 for (int i = 0; i < 4; i++)
