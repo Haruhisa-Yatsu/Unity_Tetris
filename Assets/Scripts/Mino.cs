@@ -23,6 +23,42 @@ public class Mino : MonoBehaviour
         {0, -1 },
         {1, -1 }
     };
+    public readonly int[,] _shape_Z =
+    {
+        {1, 0 },
+        {0, -1 },
+        {-1, -1 }
+    };
+    public readonly int[,] _shape_J =
+    {
+        {-1, 0 },
+        {1, 0 },
+        {-1, -1 }
+    };
+    public readonly int[,] _shape_L =
+    {
+        {-1, 0 },
+        {1, 0 },
+        {1, -1 }
+    };
+    public readonly int[,] _shape_T =
+    {
+        {-1, 0 },
+        {1, 0 },
+        {0, -1 }
+    };
+    public readonly int[,] _shape_O =
+    {
+        {-1, 0 },
+        {0, -1 },
+        {-1, -1 }
+    };
+    public readonly int[,] _shape_I =
+    {
+        {-1, 0 },
+        {-2, 0 },
+        {1, 0 }
+    };
 
     public int[,] GetShapeData(ShapeType shapeType)
     {
@@ -31,17 +67,17 @@ public class Mino : MonoBehaviour
             case ShapeType.S:
                 return _shape_S;
             case ShapeType.Z:
-                break;
+                return _shape_Z;
             case ShapeType.J:
-                break;
+                return _shape_J;
             case ShapeType.L:
-                break;
+                return _shape_L;
             case ShapeType.T:
-                break;
+                return _shape_T;
             case ShapeType.O:
-                break;
+                return _shape_O;
             case ShapeType.I:
-                break;
+                return _shape_I;
             default:
                 break;
         }
@@ -89,7 +125,7 @@ public class Mino : MonoBehaviour
     /// <summary>
     /// ミノの初期位置
     /// </summary>
-    private readonly int _startPosY = 0;
+    private readonly int _startPosY = -1;
 
     /// <summary>
     /// 自然落下する秒数
@@ -113,6 +149,7 @@ public class Mino : MonoBehaviour
     }
     private State _state = State.Initialize;
 
+    private ShapeType _currentShape;
 
     public void CreateBlocks()
     {
@@ -130,8 +167,9 @@ public class Mino : MonoBehaviour
         _posX = _startPosX;
         _posY = _startPosY;
 
+        _currentShape = (ShapeType)Random.Range(0, 7);
         // 形状データの取得
-        _shapeData = GetShapeData(ShapeType.S);
+        _shapeData = GetShapeData(_currentShape);
 
         for (int i = 0; i < 4; i++)
         {
@@ -222,7 +260,7 @@ public class Mino : MonoBehaviour
                     Rotate();
                 }
 
-                    break;
+                break;
             case State.Landing:
 
                 for (int i = 0; i < 4; i++)
@@ -349,8 +387,8 @@ public class Mino : MonoBehaviour
             }
         }
         return false;
-    }    
-    
+    }
+
     /// <summary>
     /// ミノの移動判定
     /// </summary>
@@ -365,7 +403,7 @@ public class Mino : MonoBehaviour
                 {
                     return false;
                 }
-                if (_posX + moveX >= Board.BOARD_WIDTH )
+                if (_posX + moveX >= Board.BOARD_WIDTH)
                 {
                     return false;
                 }
@@ -387,7 +425,7 @@ public class Mino : MonoBehaviour
                 }
 
                 if (_board.GetBlock(
-                    _posX + moveX +_shapeData[i - 1, 0],
+                    _posX + moveX + _shapeData[i - 1, 0],
                     -(_posY - _shapeData[i - 1, 1])
                     ).gameObject.activeSelf)
                 {
