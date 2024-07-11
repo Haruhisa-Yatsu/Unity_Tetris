@@ -281,6 +281,14 @@ public class Mino : MonoBehaviour
                     block.SetActive(true);
                 }
 
+                for(int i = 0; i < Board.BOARD_HEIGHT; i++)
+                {
+                    if (_board.CheckLine(i))
+                    {
+                        _board.DeleteLine(i);
+                    }
+                }
+
                 _state = State.Initialize;
 
                 break;

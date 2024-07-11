@@ -28,6 +28,44 @@ public class Board : MonoBehaviour
     private Block[,] _boardData = new Block[BOARD_HEIGHT, BOARD_WIDTH];
 
     /// <summary>
+    /// 指定した行のブロックを消す
+    /// </summary>
+    /// <param name="line"></param>
+    public void DeleteLine(int line)
+    {
+        for (int i = 0; i < BOARD_WIDTH; i++)
+        {
+            GetBlock(i, line).gameObject.SetActive(false);
+        }
+
+        for (int i = line; i > 0; i--)
+        {
+            DropLine(i);
+        }
+
+    }
+
+    /// <summary>
+    /// 指定した行から上のブロックを一段下にずらす
+    /// </summary>
+    /// <param name="line"></param>
+    private void DropLine(int line)
+    {
+        for (int i = 0; i < BOARD_WIDTH; i++)
+        {
+            var fromBlock = GetBlock(i, line - 1);
+            bool fromActive = false;
+            if (fromBlock != null)
+            {
+                fromActive = fromBlock.gameObject.activeSelf;
+            }
+
+            GetBlock(i, line).gameObject.SetActive(fromActive);
+        }
+    }
+
+
+    /// <summary>
     /// 指定した行がすべて埋まっているか確認
     /// </summary>
     /// <param name="line"></param>
@@ -36,7 +74,7 @@ public class Board : MonoBehaviour
     {
         for (int i = 0; i < BOARD_WIDTH; i++)
         {
-            if (!_boardData[line, i].gameObject.activeSelf)
+            if (!GetBlock(i, line).gameObject.activeSelf)
             {
                 return false;
             }
@@ -59,17 +97,17 @@ public class Board : MonoBehaviour
             return null;
         }
 
-        if(x >= BOARD_WIDTH)
+        if (x >= BOARD_WIDTH)
         {
             return null;
         }
 
-        if(y < 0)
+        if (y < 0)
         {
             return null;
         }
 
-        if(y >= BOARD_HEIGHT)
+        if (y >= BOARD_HEIGHT)
         {
             return null;
         }
