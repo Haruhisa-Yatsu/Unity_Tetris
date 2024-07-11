@@ -28,6 +28,20 @@ public class Board : MonoBehaviour
     private Block[,] _boardData = new Block[BOARD_HEIGHT, BOARD_WIDTH];
 
     /// <summary>
+    /// 盤面の初期化
+    /// </summary>
+    public void InitializeBoard()
+    {
+        for (int i = 0; i < BOARD_WIDTH; i++)
+        {
+            for (int j = 0; j < BOARD_HEIGHT; i++)
+            {
+                GetBlock(i, j).gameObject.SetActive(false);
+            }
+        }
+    }
+
+    /// <summary>
     /// 指定した行のブロックを消す
     /// </summary>
     /// <param name="line"></param>

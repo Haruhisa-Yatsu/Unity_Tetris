@@ -145,8 +145,11 @@ public class Mino : MonoBehaviour
         // 落下中
         Fall,
         // 着地
-        Landing
+        Landing,
+        // ゲームオーバー
+        GameOver
     }
+
     private State _state = State.Initialize;
 
     private ShapeType _currentShape;
@@ -192,6 +195,9 @@ public class Mino : MonoBehaviour
             _blocks[i] = block;
 
         }
+
+        _rectTransform.anchoredPosition = new Vector3(_posX * Board.BLOCK_SIZE, _posY * Board.BLOCK_SIZE, 0.0f);
+
     }
 
 
@@ -209,6 +215,15 @@ public class Mino : MonoBehaviour
         {
             case State.Initialize:
                 CreateBlocks();
+
+                if (!MoveCheck(0))
+                {
+                    _state = State.GameOver;
+                    Debug.Log("ゲームオーバー");
+                    return;
+                }
+
+
                 _state = State.Fall;
 
                 break;
@@ -292,6 +307,11 @@ public class Mino : MonoBehaviour
                 _state = State.Initialize;
 
                 break;
+
+            case State.GameOver:
+
+                break;
+
             default:
                 break;
         }
