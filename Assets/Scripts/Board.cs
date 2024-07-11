@@ -28,6 +28,25 @@ public class Board : MonoBehaviour
     private Block[,] _boardData = new Block[BOARD_HEIGHT, BOARD_WIDTH];
 
     /// <summary>
+    /// 指定した行がすべて埋まっているか確認
+    /// </summary>
+    /// <param name="line"></param>
+    /// <returns></returns>
+    public bool CheckLine(int line)
+    {
+        for (int i = 0; i < BOARD_WIDTH; i++)
+        {
+            if (!_boardData[line, i].gameObject.activeSelf)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+
+    /// <summary>
     /// 指定された座標のブロックを返す
     /// </summary>
     /// <param name="x"></param>
@@ -75,6 +94,8 @@ public class Board : MonoBehaviour
             }
         }
     }
+
+
 
     // Update is called once per frame
     void Update()
