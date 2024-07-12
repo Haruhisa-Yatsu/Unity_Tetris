@@ -150,7 +150,7 @@ public class Mino : MonoBehaviour
     /// <summary>
     /// ゲームオーバー演出の間隔
     /// </summary>
-    private float _gameOverActTime = 0.2f;
+    private float _gameOverActTime = 0.1f;
 
     /// <summary>
     /// ゲームオーバー現在の演出行
