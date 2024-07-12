@@ -34,7 +34,7 @@ public class Board : MonoBehaviour
     {
         for (int i = 0; i < BOARD_WIDTH; i++)
         {
-            for (int j = 0; j < BOARD_HEIGHT; i++)
+            for (int j = 0; j < BOARD_HEIGHT; j++)
             {
                 GetBlock(i, j).gameObject.SetActive(false);
             }

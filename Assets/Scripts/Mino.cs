@@ -150,6 +150,7 @@ public class Mino : MonoBehaviour
         GameOver
     }
 
+    [SerializeField]
     private State _state = State.Initialize;
 
     private ShapeType _currentShape;
@@ -311,6 +312,12 @@ public class Mino : MonoBehaviour
                 break;
 
             case State.GameOver:
+
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    _board.InitializeBoard();
+                    _state = State.Initialize;
+                }
 
                 break;
 
