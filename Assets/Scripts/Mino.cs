@@ -137,6 +137,25 @@ public class Mino : MonoBehaviour
     /// </summary>
     private float _fallCount = 0.0f;
 
+    /// <summary>
+    /// ゲームオーバーのテキスト
+    /// </summary>
+    public GameObject _gameOverObj;
+
+    /// <summary>
+    /// ゲームオーバー演出用のカウンタ
+    /// </summary>
+    private float _gameOverActCount = 0.0f;
+
+    /// <summary>
+    /// ゲームオーバー演出の間隔
+    /// </summary>
+    private float _gameOverActTime = 0.2f;
+
+    /// <summary>
+    /// ゲームオーバー現在の演出行
+    /// </summary>
+    private int _gameOverActLine = Board.BOARD_HEIGHT;
 
     public enum State
     {
@@ -146,6 +165,8 @@ public class Mino : MonoBehaviour
         Fall,
         // 着地
         Landing,
+        // ゲームオーバー演出
+        GameOverAct,
         // ゲームオーバー
         GameOver
     }
@@ -157,6 +178,7 @@ public class Mino : MonoBehaviour
 
     public void CreateBlocks()
     {
+        _fallCount = 0.0f;
         //すでに生成されているブロックを削除
         for (int i = 0; i < 4; i++)
         {
@@ -219,7 +241,7 @@ public class Mino : MonoBehaviour
 
                 if (!MoveCheck(0))
                 {
-                    _state = State.GameOver;
+                    _state = State.GameOverAct;
                     Debug.Log("ゲームオーバー");
                     return;
                 }
@@ -312,12 +334,36 @@ public class Mino : MonoBehaviour
 
                 break;
 
+            case State.GameOverAct:
+
+                _gameOverActCount += Time.deltaTime;
+
+                if (_gameOverActCount > _gameOverActTime)
+                {
+                    _gameOverActLine--;
+                    _board.FillLine(_gameOverActLine);
+                    _gameOverActCount = 0.0f;
+                    
+                }
+
+                if (_gameOverActLine == 0)
+                {
+                    _gameOverActLine = Board.BOARD_HEIGHT;
+
+                    _gameOverObj.SetActive(true);
+                    _state = State.GameOver;
+                }
+
+                break;
+
             case State.GameOver:
 
                 if (Input.GetKeyDown(KeyCode.Return))
                 {
                     _board.InitializeBoard();
                     _state = State.Initialize;
+
+                    _gameOverObj.SetActive(false);
                 }
 
                 break;
@@ -328,6 +374,7 @@ public class Mino : MonoBehaviour
 
         _rectTransform.anchoredPosition = new Vector3(_posX * Board.BLOCK_SIZE, _posY * Board.BLOCK_SIZE, 0.0f);
     }
+
 
     private void Rotate()
     {

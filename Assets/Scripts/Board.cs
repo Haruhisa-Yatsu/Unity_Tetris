@@ -59,6 +59,16 @@ public class Board : MonoBehaviour
 
     }
 
+    public void FillLine(int line)
+    {
+        for (int i = 0; i < BOARD_WIDTH; i++)
+        {
+            var block = GetBlock(i, line);
+            block.gameObject.SetActive(true);
+            block.SetColor(Color.gray);
+        }
+    }
+
     /// <summary>
     /// 指定した行から上のブロックを一段下にずらす
     /// </summary>

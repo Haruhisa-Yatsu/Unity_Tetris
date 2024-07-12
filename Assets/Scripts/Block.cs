@@ -44,7 +44,7 @@ public class Block : MonoBehaviour
     /// F‚ğİ’è‚·‚é
     /// </summary>
     /// <param name="color"></param>
-    private void SetColor(Color color)
+    public void SetColor(Color color)
     {
         _image.color = color;
     }
