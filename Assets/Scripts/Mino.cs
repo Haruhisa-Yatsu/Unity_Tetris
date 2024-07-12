@@ -292,11 +292,13 @@ public class Mino : MonoBehaviour
                             -(_posY - _shapeData[i - 1, 1])
                             );
                     }
-
-                    block.SetActive(true);
+                    if (block != null)
+                    {
+                        block.SetActive(true);
+                    }
                 }
 
-                for(int i = 0; i < Board.BOARD_HEIGHT; i++)
+                for (int i = 0; i < Board.BOARD_HEIGHT; i++)
                 {
                     if (_board.CheckLine(i))
                     {
@@ -321,7 +323,7 @@ public class Mino : MonoBehaviour
 
     private void Rotate()
     {
-        if(_currentShape == ShapeType.O)
+        if (_currentShape == ShapeType.O)
         {
             return;
         }
@@ -393,9 +395,13 @@ public class Mino : MonoBehaviour
                     return true;
                 }
 
-                if (_board.GetBlock(_posX, -_posY + 1).gameObject.activeSelf)
+                var block = _board.GetBlock(_posX, -_posY + 1);
+                if (block != null)
                 {
-                    return true;
+                    if (block.gameObject.activeSelf)
+                    {
+                        return true;
+                    }
                 }
             }
             else
@@ -405,12 +411,16 @@ public class Mino : MonoBehaviour
                     return true;
                 }
 
-                if (_board.GetBlock(
+                var block = _board.GetBlock(
                     _posX + _shapeData[i - 1, 0],
-                    -(_posY - _shapeData[i - 1, 1]) + 1
-                    ).gameObject.activeSelf)
+                    -(_posY - _shapeData[i - 1, 1]) + 1);
+
+                if (block != null)
                 {
-                    return true;
+                    if (block.gameObject.activeSelf)
+                    {
+                        return true;
+                    }
                 }
             }
         }
@@ -435,10 +445,13 @@ public class Mino : MonoBehaviour
                 {
                     return false;
                 }
-
-                if (_board.GetBlock(_posX + moveX, -_posY).gameObject.activeSelf)
+                var block = _board.GetBlock(_posX + moveX, -_posY);
+                if (block != null)
                 {
-                    return false;
+                    if (block.gameObject.activeSelf)
+                    {
+                        return false;
+                    }
                 }
             }
             else
@@ -452,12 +465,16 @@ public class Mino : MonoBehaviour
                     return false;
                 }
 
-                if (_board.GetBlock(
+                var block = _board.GetBlock(
                     _posX + moveX + _shapeData[i - 1, 0],
-                    -(_posY - _shapeData[i - 1, 1])
-                    ).gameObject.activeSelf)
+                    -(_posY - _shapeData[i - 1, 1]));
+
+                if (block != null)
                 {
-                    return false;
+                    if (block.gameObject.activeSelf)
+                    {
+                        return false;
+                    }
                 }
             }
         }
