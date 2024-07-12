@@ -74,7 +74,9 @@ public class Board : MonoBehaviour
                 fromActive = fromBlock.gameObject.activeSelf;
             }
 
-            GetBlock(i, line).gameObject.SetActive(fromActive);
+            var toBlock = GetBlock(i, line);
+            toBlock.SetColor(fromBlock);
+            toBlock.gameObject.SetActive(fromActive);
         }
     }
 

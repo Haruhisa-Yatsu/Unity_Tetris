@@ -178,7 +178,7 @@ public class Mino : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             var block = Instantiate(_blockPrefab, transform);
-
+            block.SetColor(_currentShape);
             if (i == 0)
             {
                 block.transform.localPosition = new Vector3(0, 0, 0);
@@ -295,6 +295,7 @@ public class Mino : MonoBehaviour
                     }
                     if (block != null)
                     {
+                        block.SetColor(_currentShape);
                         block.SetActive(true);
                     }
                 }
